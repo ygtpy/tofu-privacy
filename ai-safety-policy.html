@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tofu AI – AI Safety Policy</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f0f0f;
+      color: #e5e5e5;
+      line-height: 1.7;
+      padding: 40px 20px;
+    }
+    .container { max-width: 760px; margin: 0 auto; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 40px; }
+    h2 { font-size: 1.15rem; font-weight: 600; color: #fff; margin: 32px 0 10px; }
+    h3 { font-size: 1rem; font-weight: 600; color: #ddd; margin: 20px 0 8px; }
+    p  { margin-bottom: 12px; color: #ccc; }
+    ul { padding-left: 20px; margin-bottom: 12px; color: #ccc; }
+    li { margin-bottom: 6px; }
+    a  { color: #a78bfa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      background: #1a1a1a; padding: 2px 6px; border-radius: 4px;
+      font-size: 0.85em; color: #f0a070;
+    }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .lang-switch {
+      display: flex; gap: 12px; margin-bottom: 32px;
+    }
+    .lang-switch a {
+      background: #2a2a2a; padding: 6px 16px; border-radius: 20px;
+      font-size: 0.85rem; color: #ccc;
+    }
+    .lang-switch a.active { background: #a78bfa; color: #fff; }
+    table {
+      width: 100%; border-collapse: collapse; margin-bottom: 16px;
+      font-size: 0.92rem;
+    }
+    th, td {
+      border: 1px solid #2a2a2a; padding: 10px 12px; text-align: left;
+      color: #ccc; vertical-align: top;
+    }
+    th { background: #1a1a1a; color: #fff; font-weight: 600; }
+    footer { margin-top: 60px; color: #555; font-size: 0.8rem; text-align: center; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-switch">
+    <a href="#en" class="active">English</a>
+    <a href="#tr">Türkçe</a>
+  </div>
+
+  <!-- ===== ENGLISH ===== -->
+  <section id="en">
+    <h1>AI Safety Policy</h1>
+    <p class="subtitle">Tofu AI &nbsp;·&nbsp; Developer: maesic &nbsp;·&nbsp; Last updated: May 29, 2026</p>
+
+    <div class="card">
+      <p>This document describes the safeguards <strong>Tofu AI</strong> applies to AI-generated content, in compliance with Apple App Store Review Guidelines 1.1.4, 1.2, and 4.7, and Google Play's Generative AI Apps Policy.</p>
+    </div>
+
+    <h2>1. What Tofu AI does</h2>
+    <p>Tofu AI is a personal AI media creation tool. Users generate images and videos from text prompts and/or reference media via third-party generative models hosted by <a href="https://fal.ai">fal.ai</a> and <a href="https://wavespeed.ai">Wavespeed</a>. Output is private to the creating user; Tofu AI does not host a public feed or expose one user's output to another.</p>
+
+    <p>Supported feature families:</p>
+    <ul>
+      <li><strong>Text-to-Image</strong> / Image-to-Image / Image Edit / Style Transfer / Background Removal / Upscale</li>
+      <li><strong>Text-to-Video</strong> / Image-to-Video / Video Extend / Video SFX</li>
+      <li><strong>Face Swap</strong> / Talking Photo / Lip Sync (biometric-input features — see Section 5)</li>
+      <li><strong>External Models</strong> (third-party Wavespeed models surfaced through a single explorer)</li>
+    </ul>
+
+    <h2>2. Prohibited content</h2>
+    <p>The following categories are prohibited and are blocked at the prompt level (before any generation begins) and re-checked on model output:</p>
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Examples</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Child sexual abuse material (CSAM)</td><td>Any sexual content depicting or implying minors. Zero tolerance.</td></tr>
+        <tr><td>Adult / sexually explicit content</td><td>Pornographic, nude, erotic, or sexually explicit imagery or descriptions.</td></tr>
+        <tr><td>Realistic violence, terrorism, weapons instruction</td><td>Bomb-making, mass-violence incitement, terror attack planning.</td></tr>
+        <tr><td>Hate speech / dehumanization</td><td>Genocide, ethnic cleansing, slurs targeting protected groups.</td></tr>
+        <tr><td>Non-consensual deepfakes</td><td>Face swap / talking photo / lip sync of identifiable people without their consent.</td></tr>
+        <tr><td>Impersonation / fraud</td><td>Generating content to impersonate real public or private individuals.</td></tr>
+        <tr><td>Copyright-infringing material</td><td>Generated content designed to violate third-party copyright.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Safeguards — defense in depth</h2>
+    <p>Tofu AI applies multiple independent safety layers. A prompt or output must pass <strong>all</strong> layers to reach the user.</p>
+
+    <h3>3.1 Prompt-level moderation (first line)</h3>
+    <p>Before a generation request is sent to the AI provider, the prompt is normalized (Unicode-folded, lower-cased, whitespace-collapsed) and scanned against word-boundary regular expressions covering the categories in Section 2, in both English and Turkish. The scanner also catches common bypass attempts — leetspeak (<code>p0rn</code>, <code>s3x</code>, <code>nud3</code>) and letter-separator spacing (<code>p o r n</code>, <code>p.o.r.n</code>, <code>s-i-k-i-s</code>).</p>
+    <p>If the prompt matches a banned pattern:</p>
+    <ul>
+      <li>The generation is <strong>rejected with HTTP 422 <code>CONTENT_POLICY_VIOLATION</code></strong>.</li>
+      <li>The provider is <strong>never called</strong> and <strong>no credit is deducted</strong>.</li>
+      <li>The user sees a localized message explaining that the request was blocked.</li>
+    </ul>
+    <p>This check runs on every generation endpoint and also runs on the "estimate" preview that fires while the user is still typing — so the user gets immediate feedback before pressing Generate.</p>
+
+    <h3>3.2 Provider-level safety filters (second line)</h3>
+    <p>Every fal.ai generation request includes the strictest available safety setting (<code>safety_tolerance: "2"</code> on FLUX-family models, <code>enable_safety_checker: true</code> on supported models). Wavespeed external models that expose a safety parameter are configured to the same strict baseline.</p>
+
+    <h3>3.3 Output-level moderation (third line)</h3>
+    <p>The webhook handler that receives completed generations inspects the provider response for safety flags (<code>has_nsfw_concepts</code>, <code>nsfw_content_detected</code>, <code>moderation_blocked</code>, etc.). If a flag is present:</p>
+    <ul>
+      <li>The output is <strong>not surfaced</strong> to the user.</li>
+      <li>The output is <strong>not copied</strong> to our Supabase Storage.</li>
+      <li>Any reserved credits are <strong>refunded</strong>.</li>
+      <li>The user sees: <em>"This result was blocked by our content safety filter. Your credits were refunded."</em></li>
+    </ul>
+
+    <h3>3.4 User-reportable content</h3>
+    <p>Every generated result a user views includes a Report action. Reports are stored with a categorical reason (sexual content, violence, hate speech, CSAM, impersonation, copyright, other) and an optional free-text explanation.</p>
+
+    <h3>3.5 24-hour SLA on reports</h3>
+    <p>Reports are auto-quarantined if not actioned within 24 hours. A scheduled <code>pg_cron</code> job invokes <code>enforce_moderation_sla()</code> hourly; any pending report older than 24 hours causes its referenced output to be hidden from the creator and from any future reference, and the report is marked actioned. This satisfies the App Store Review Guideline 1.2 24-hour SLA requirement.</p>
+
+    <h3>3.6 Account suspension</h3>
+    <p>If an account is found to have produced policy-violating content (whether through manual review, repeated reports, or automated detection), an administrator may suspend the account. Suspended accounts receive HTTP 403 on every generation and protected endpoint.</p>
+
+    <h2>4. Biometric / deepfake features — additional consent</h2>
+    <p>Face Swap, Talking Photo, and Lip Sync use a person's face or voice as input. For each generation:</p>
+    <ol style="padding-left:20px; color:#ccc; margin-bottom:12px;">
+      <li>The user is shown an explicit consent sheet <strong>before every generation</strong> (no one-time accept).</li>
+      <li>The user must check a confirmation box stating they have the right to use the input media and will not use it to harass, defame, or impersonate.</li>
+      <li>The Generate button is disabled until the box is checked.</li>
+    </ol>
+    <p>The same prompt and output safeguards (Sections 3.1–3.5) apply on top of this.</p>
+
+    <h2>5. Data handling</h2>
+    <ul>
+      <li>Generated outputs are stored in the user's private Supabase Storage bucket, secured by row-level security policies.</li>
+      <li>Outputs are visible only to the creating user.</li>
+      <li>A user may delete any output, or delete their entire account.</li>
+      <li>Provider URLs returned by fal.ai / Wavespeed are short-lived; we transfer outputs to our own storage so they remain accessible to the user only.</li>
+    </ul>
+
+    <h2>6. Red-team testing</h2>
+    <p>Before each release, we run a fixed regression suite against the prompt moderator covering English and Turkish variants of each prohibited category, common bypass attempts, and false-positive controls (innocuous prompts containing substring overlap with banned terms — e.g., "essex", "cocktail", "analytical", "breast cancer awareness", "pronghorn"). The suite is required to pass before merge.</p>
+
+    <h2>7. Reporting an issue</h2>
+    <p>If you encounter content that violates this policy and the in-app Report button is not available, please email <strong>support@tofuai.app</strong> with a description and (if possible) the offending content URL. We will respond within 24 hours during business days.</p>
+
+    <h2>8. Updates to this policy</h2>
+    <p>We update this policy as model capabilities, regulations, and store requirements evolve. The "Last updated" date at the top of this document reflects the most recent revision.</p>
+  </section>
+
+  <hr style="border:none; border-top:1px solid #2a2a2a; margin:60px 0;" />
+
+  <!-- ===== TÜRKÇE ===== -->
+  <section id="tr">
+    <h1>Yapay Zeka Güvenlik Politikası</h1>
+    <p class="subtitle">Tofu AI &nbsp;·&nbsp; Geliştirici: maesic &nbsp;·&nbsp; Son güncelleme: 29 Mayıs 2026</p>
+
+    <div class="card">
+      <p>Bu belge, <strong>Tofu AI</strong>'nin yapay zeka ile üretilen içeriklere uyguladığı koruma katmanlarını açıklar. Apple App Store İnceleme Kuralları 1.1.4, 1.2, 4.7 ve Google Play Üretici Yapay Zeka Politikası uyumludur.</p>
+    </div>
+
+    <h2>1. Tofu AI ne yapar?</h2>
+    <p>Tofu AI, kişisel kullanım için bir yapay zeka medya üretim aracıdır. Kullanıcılar, <a href="https://fal.ai">fal.ai</a> ve <a href="https://wavespeed.ai">Wavespeed</a> üzerinde barınan üçüncü taraf üretici modeller aracılığıyla metin ve/veya referans medyadan görsel ve video üretir. Üretilen çıktılar yalnızca üreten kullanıcıya görünür; Tofu AI ortak bir akış (feed) sunmaz, bir kullanıcının çıktısını başka bir kullanıcıya göstermez.</p>
+
+    <p>Desteklenen özellik aileleri:</p>
+    <ul>
+      <li><strong>Metinden Görsele</strong> / Görselden Görsele / Görsel Düzenleme / Stil Aktarımı / Arka Plan / Yükseltme</li>
+      <li><strong>Metinden Videoya</strong> / Görselden Videoya / Video Uzatma / Video SFX</li>
+      <li><strong>Yüz Değiştirme</strong> / Konuşan Foto / Dudak Senkronu (biyometrik girdili özellikler — bkz. 5. bölüm)</li>
+      <li><strong>Harici Modeller</strong> (tek bir gezginden sunulan üçüncü taraf Wavespeed modelleri)</li>
+    </ul>
+
+    <h2>2. Yasaklı içerik</h2>
+    <p>Aşağıdaki kategoriler yasaktır. Üretim başlamadan önce prompt seviyesinde engellenir ve model çıktısı da ayrıca taranır:</p>
+    <table>
+      <thead>
+        <tr><th>Kategori</th><th>Örnekler</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Çocuk istismarı içeriği (CSAM)</td><td>Reşit olmayanlara dair cinsel içerikli her tür ima ve gösterim. Sıfır tolerans.</td></tr>
+        <tr><td>Yetişkin / cinsel içerik</td><td>Pornografik, müstehcen, erotik içerik veya bunların tasvirleri.</td></tr>
+        <tr><td>Gerçekçi şiddet, terör, silah üretimi</td><td>Bomba yapımı, kitlesel şiddete teşvik, terör saldırısı planlama.</td></tr>
+        <tr><td>Nefret söylemi / insanlık dışılaştırma</td><td>Soykırım, etnik temizlik, korunan gruplara yönelik hakaret.</td></tr>
+        <tr><td>Rıza dışı deepfake</td><td>Tanınabilir bir kişinin izni olmadan yüz değiştirme / konuşan foto / dudak senkronu.</td></tr>
+        <tr><td>Kimliğe bürünme / dolandırıcılık</td><td>Gerçek bir kişiyi taklit etmek amacıyla içerik üretme.</td></tr>
+        <tr><td>Telif ihlali</td><td>Üçüncü taraf telif haklarını ihlal eden içerik üretimi.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Koruma katmanları</h2>
+    <p>Tofu AI birden çok bağımsız güvenlik katmanı uygular. Bir prompt veya çıktının kullanıcıya ulaşması için <strong>tümünden</strong> geçmesi gerekir.</p>
+
+    <h3>3.1 Prompt seviyesinde moderasyon (1. hat)</h3>
+    <p>Üretim isteği AI sağlayıcısına gönderilmeden önce prompt normalize edilir (Unicode birleşik karakter ayrıştırma, küçük harf, ardışık boşluk indirgeme) ve 2. bölümdeki kategorileri kapsayan kelime sınırlı düzenli ifadelerle taranır (İngilizce + Türkçe). Yaygın bypass denemelerini de yakalar: leetspeak (<code>p0rn</code>, <code>s3x</code>, <code>nud3</code>) ve harf-arası ayrac (<code>p o r n</code>, <code>p.o.r.n</code>, <code>s-i-k-i-s</code>).</p>
+    <p>Prompt yasaklı bir desene uyarsa:</p>
+    <ul>
+      <li>İstek <strong>HTTP 422 <code>CONTENT_POLICY_VIOLATION</code></strong> ile reddedilir.</li>
+      <li>Sağlayıcı <strong>asla çağrılmaz</strong>, <strong>kredi düşülmez</strong>.</li>
+      <li>Kullanıcı, isteğin engellendiğine dair yerelleştirilmiş bir mesaj görür.</li>
+    </ul>
+    <p>Bu kontrol her üretim endpointinde çalışır; ayrıca kullanıcı henüz yazarken çalışan "estimate" önizlemesinde de tetiklenir — Üret butonuna basmadan önce anında geri bildirim alır.</p>
+
+    <h3>3.2 Sağlayıcı seviyesinde güvenlik filtreleri (2. hat)</h3>
+    <p>Her fal.ai üretim isteği mevcut en sıkı güvenlik ayarını taşır (<code>safety_tolerance: "2"</code> FLUX ailesinde, desteklenen modellerde <code>enable_safety_checker: true</code>). Wavespeed harici modellerinden güvenlik parametresi sunanlar aynı sıkı baseline'a ayarlanır.</p>
+
+    <h3>3.3 Çıktı seviyesinde moderasyon (3. hat)</h3>
+    <p>Tamamlanan üretimleri alan webhook handler, sağlayıcı yanıtını güvenlik bayrakları için inceler (<code>has_nsfw_concepts</code>, <code>nsfw_content_detected</code>, <code>moderation_blocked</code>, vb.). Bayrak varsa:</p>
+    <ul>
+      <li>Çıktı kullanıcıya <strong>gösterilmez</strong>.</li>
+      <li>Çıktı Supabase Storage'a <strong>kopyalanmaz</strong>.</li>
+      <li>Rezerve edilmiş krediler <strong>iade edilir</strong>.</li>
+      <li>Kullanıcı şu mesajı görür: <em>"Bu sonuç içerik güvenlik filtremiz tarafından engellendi. Krediniz iade edildi."</em></li>
+    </ul>
+
+    <h3>3.4 Kullanıcı raporlama</h3>
+    <p>Kullanıcının gördüğü her üretilmiş sonuçta Rapor Et eylemi vardır. Raporlar kategorik sebeple (cinsel içerik, şiddet, nefret söylemi, CSAM, kimliğe bürünme, telif, diğer) ve isteğe bağlı açıklama ile saklanır.</p>
+
+    <h3>3.5 Raporlar için 24 saatlik SLA</h3>
+    <p>24 saat içinde aksiyon alınmayan raporlar otomatik karantinaya alınır. Saatte bir <code>pg_cron</code> job'ı <code>enforce_moderation_sla()</code> fonksiyonunu çağırır; 24 saatten eski tüm pending raporların ilgili çıktısı gizlenir ve rapor "actioned" olarak işaretlenir. Bu Apple App Store İnceleme Kuralı 1.2'nin 24 saatlik SLA gereksinimini karşılar.</p>
+
+    <h3>3.6 Hesap askıya alma</h3>
+    <p>Bir hesap politika ihlali yapan içerik ürettiyse (manuel inceleme, tekrar eden raporlar veya otomatik tespitle), bir yönetici hesabı askıya alabilir. Askıya alınmış hesap her üretim ve korumalı endpointte HTTP 403 alır.</p>
+
+    <h2>4. Biyometrik / deepfake özellikler — ek onay</h2>
+    <p>Yüz Değiştirme, Konuşan Foto ve Dudak Senkronu girdi olarak bir kişinin yüzünü/sesini kullanır. Her üretim için:</p>
+    <ol style="padding-left:20px; color:#ccc; margin-bottom:12px;">
+      <li>Kullanıcıya <strong>her üretimden önce</strong> açık bir onay sayfası gösterilir (tek seferlik onay yoktur).</li>
+      <li>Kullanıcı, girdi medyasını kullanma hakkına sahip olduğunu ve bunu taciz, iftira veya kimliğe bürünme amacıyla kullanmayacağını onaylayan kutucuğu işaretlemelidir.</li>
+      <li>Kutucuk işaretlenene kadar Üret butonu devre dışıdır.</li>
+    </ol>
+    <p>Aynı prompt ve çıktı korumaları (3.1–3.5) bunun üzerine eklenir.</p>
+
+    <h2>5. Veri işleme</h2>
+    <ul>
+      <li>Üretilen çıktılar kullanıcının özel Supabase Storage bucket'ında, satır düzeyi güvenlik politikalarıyla saklanır.</li>
+      <li>Çıktılar yalnızca üreten kullanıcıya görünür.</li>
+      <li>Kullanıcı dilediği çıktıyı veya tüm hesabını silebilir.</li>
+      <li>fal.ai / Wavespeed'in döndüğü sağlayıcı URL'leri kısa ömürlüdür; çıktıları kendi depomuza aktarıyoruz, böylece yalnızca kullanıcıya erişilebilir kalır.</li>
+    </ul>
+
+    <h2>6. Red-team testi</h2>
+    <p>Her sürümden önce prompt moderatörü sabit bir gerileme suite'i ile test edilir; her yasaklı kategorinin İngilizce ve Türkçe varyantları, yaygın bypass denemeleri ve yanlış-pozitif kontrolleri (yasaklı terimlerle alt-dize çakışan masum prompt'lar — örn. "essex", "cocktail", "analytical", "pronghorn", "meme kanseri farkındalık posteri") kapsanır. Suite, merge öncesi geçmek zorundadır.</p>
+
+    <h2>7. Bir sorunu bildirme</h2>
+    <p>Bu politikayı ihlal eden bir içerikle karşılaşırsanız ve uygulama içi Rapor butonu mevcut değilse, lütfen <strong>support@tofuai.app</strong> adresine açıklama ve (mümkünse) içerik URL'i ile e-posta gönderin. İş günlerinde 24 saat içinde yanıt veririz.</p>
+
+    <h2>8. Politika güncellemeleri</h2>
+    <p>Model yetenekleri, mevzuat ve mağaza gereksinimleri değiştikçe bu politikayı güncelliyoruz. Belgenin başındaki "Son güncelleme" tarihi en son revizyonu yansıtır.</p>
+  </section>
+
+  <footer>
+    &copy; 2026 Tofu AI · maesic
+  </footer>
+</div>
+</body>
+</html>
